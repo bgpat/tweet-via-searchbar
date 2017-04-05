@@ -1,2 +1,2 @@
-# searchbar-tweet
+# tweet-via-searchbar
 Tweet via searchbar
