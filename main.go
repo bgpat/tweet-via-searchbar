@@ -98,7 +98,8 @@ func main() {
 			if verifier, ok := c.GetQuery("oauth_verifier"); ok {
 				err := client.GetAccessToken(verifier)
 				if err != nil {
-					c.JSON(http.StatusUnauthorized, err)
+					printError(err)
+					c.Redirect(http.StatusFound, baseURL)
 					return
 				}
 				client.Save()
@@ -113,7 +114,8 @@ func main() {
 		}
 		urlStr, err := client.RequestTokenURL(baseURL + "/login")
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, err)
+			printError(err)
+			c.Redirect(http.StatusFound, baseURL)
 			return
 		}
 		client.Save()
