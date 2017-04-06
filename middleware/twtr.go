@@ -7,7 +7,7 @@ import (
 
 	"github.com/bgpat/twtr"
 	"github.com/gin-contrib/sessions"
-	"gopkg.in/gin-gonic/gin.v1"
+	"github.com/gin-gonic/gin"
 )
 
 const (

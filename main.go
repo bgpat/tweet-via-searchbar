@@ -7,11 +7,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/bgpat/searchbar-tweet/middleware"
-	"github.com/bgpat/searchbar-tweet/opensearch"
+	"github.com/bgpat/tweet-via-searchbar/middleware"
+	"github.com/bgpat/tweet-via-searchbar/opensearch"
 	"github.com/bgpat/twtr"
 	"github.com/gin-contrib/sessions"
-	"gopkg.in/gin-gonic/gin.v1"
+	"github.com/gin-gonic/gin"
 )
 
 var (

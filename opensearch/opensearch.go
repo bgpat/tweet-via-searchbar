@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/bgpat/searchbar-tweet/middleware"
+	"github.com/bgpat/tweet-via-searchbar/middleware"
 	"github.com/bgpat/twtr"
 )
 
