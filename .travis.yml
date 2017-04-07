@@ -24,7 +24,8 @@ script:
   - make test
 
 deploy:
-  - skip_cleanup: true
+  - provider: script
+    skip_cleanup: true
     script: make ci-docker-release
     on:
       all_branches: true
