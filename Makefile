@@ -33,13 +33,17 @@ endif
 docker-build: $(BIN_FILE)-docker
 	docker build -t $(DOCKER_IMAGE) .
 
-.PHONY: ci-docker-release
-ci-docker-release: docker-build
+.PHONY: ci-build
+ci-build: docker-build
 	docker push $(DOCKER_IMAGE)
 
 .PHONY: docker-compose
 docker-compose: $(BIN_FILE)-docker
 	docker-compose up -d --build
+
+.PHONY: test
+test:
+	go test -v `glide novendor`
 
 .PHONY: clean
 clean:
