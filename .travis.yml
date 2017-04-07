@@ -1,0 +1,30 @@
+language: go
+go:
+  - 1.8
+
+services:
+  - docker
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:masterminds/glide'
+    packages:
+      - glide
+
+env:
+  global:
+    - BRANCH=$(echo $TRAVIS_BRANCH | sed -e "s,/,_,g;")
+    - DOCKER_IMAGE_TAG=$BRANCH-${TRAVIS_COMMIT::8}
+
+install:
+  - glide install
+
+script:
+  - make test
+
+deploy:
+  - skip_cleanup: true
+    script: make ci-docker-release
+    on:
+      all_branches: true
