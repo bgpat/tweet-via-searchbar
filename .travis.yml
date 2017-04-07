@@ -26,6 +26,6 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: make ci-docker-release
+    script: make ci-build
     on:
       all_branches: true
