@@ -40,7 +40,7 @@ ci-build: docker-build
 
 .PHONY: docker-update-latest
 docker-update-latest:
-	docker tag $(DOCKER_IMAGE) $(DOCKER_REGISTRY)/$(DOCKER_IMAGE_NAME)
+	docker tag $(DOCKER_IMAGE) $(DOCKER_REGISTRY)/$(DOCKER_IMAGE_NAME):latest
 
 .PHONY: docker-compose
 docker-compose: $(BIN_FILE)-docker
