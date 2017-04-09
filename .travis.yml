@@ -35,3 +35,8 @@ deploy:
     script: make ci-build
     on:
       all_branches: true
+  - provider: script
+    skip_cleanup: true
+    script: make docker-update-latest
+    on:
+      branch: master
