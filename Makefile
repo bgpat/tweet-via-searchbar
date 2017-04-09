@@ -7,9 +7,10 @@ BIN_FILE  := bin/$(NAME)
 SRC_FILES := $(shell find . -name '*.go' -not -path './vendor/*')
 VENDOR_FILES := $(shell find . -type 'f' -path './vendor/*')
 
+DOCKER_REGISTRY ?= docker.io
 DOCKER_IMAGE_NAME := $(AUTHOR)/$(NAME)
 DOCKER_IMAGE_TAG ?= latest
-DOCKER_IMAGE := $(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
+DOCKER_IMAGE := $(DOCKER_REGISTRY)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
 
 .DEFAULT_GOAL  := $(BIN_FILE)
 
