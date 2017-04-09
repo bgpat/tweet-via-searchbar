@@ -38,6 +38,10 @@ docker-build: $(BIN_FILE)-docker
 ci-build: docker-build
 	docker push $(DOCKER_IMAGE)
 
+.PHONY: docker-update-latest
+docker-update-latest:
+	docker tag $(DOCKER_IMAGE) $(DOCKER_REGISTRY)/$(DOCKER_IMAGE_NAME)
+
 .PHONY: docker-compose
 docker-compose: $(BIN_FILE)-docker
 	docker-compose up -d --build
