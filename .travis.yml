@@ -32,7 +32,7 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: make docker-build
+    script: make ci-build
     on:
       all_branches: true
   - provider: script
