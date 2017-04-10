@@ -12,5 +12,7 @@ services:
       - redis
     ports:
       - "8080:8080"
+    restart: always
   redis:
     image: redis:alpine
+    restart: always
