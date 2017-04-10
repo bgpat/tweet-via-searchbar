@@ -39,7 +39,7 @@ ci-build: docker-build
 	docker push $(DOCKER_IMAGE)
 
 .PHONY: docker-update-latest
-docker-update-latest:
+docker-update-latest: docker-build
 	docker tag $(DOCKER_IMAGE) $(DOCKER_REGISTRY)/$(DOCKER_IMAGE_NAME):latest
 
 .PHONY: docker-compose
