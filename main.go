@@ -41,7 +41,7 @@ func main() {
 
 	r.LoadHTMLGlob("templates/*")
 
-	r.Any("/", func(c *gin.Context) {
+	r.GET("/", func(c *gin.Context) {
 		client := middleware.Default(c)
 		var user *twtr.User
 		if client != nil && client.AccessToken != nil {
@@ -54,6 +54,16 @@ func main() {
 			"user":   user,
 			"config": client.Config,
 		})
+	})
+
+	r.POST("/", func(c *gin.Context) {
+		client := middleware.Default(c)
+		err := c.Bind(&client.Config)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error: %+v\n", err)
+		}
+		client.Save()
+		c.Redirect(http.StatusFound, "/")
 	})
 
 	r.GET("/opensearch.xml", func(c *gin.Context) {

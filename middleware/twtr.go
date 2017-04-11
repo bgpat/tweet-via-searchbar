@@ -2,8 +2,6 @@ package middleware
 
 import (
 	"encoding/gob"
-	"fmt"
-	"os"
 
 	"github.com/bgpat/twtr"
 	"github.com/gin-contrib/sessions"
@@ -59,15 +57,6 @@ func TwitterClient(consumer *twtr.Credentials) gin.HandlerFunc {
 			client = v.(*Client)
 			client.Context = c
 		}
-
-		if c.Request.Method == "POST" {
-			err := c.Bind(&client.Config)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "error: %+v\n", err)
-			}
-			client.Save()
-		}
-
 		c.Set(DefaultKey, client)
 		c.Next()
 	}
