@@ -44,7 +44,11 @@
               <label for="config-redirect">
                 検索後にリダイレクトするURL
               </label>
-              <input name="redirect" value="{{.config.Redirect}}" id="config-redirect" class="form-control" />
+              <input name="redirect" value="{{.config.Redirect}}" id="config-redirect" class="form-control" list="redirects" />
+              <datalist id="redirects">
+                <option value="about:blank">空ページ(about:blank)</option>
+                <option value="https://google.co.jp/search?q={searchTerms}">Google検索</option>
+              </datalist>
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
           </form>
