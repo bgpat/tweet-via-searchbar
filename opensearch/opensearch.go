@@ -53,8 +53,8 @@ func NewOpenSearch(user *twtr.User, client *middleware.Client) *OpenSearch {
 	return &OpenSearch{
 		XMLNS:       "http://a9.com/-/spec/opensearch/1.1/",
 		ShortName:   fmt.Sprintf("@%s(%s)", user.ScreenName, user.IDStr),
-		LongName:    fmt.Sprintf("@%sでツイート", user.ScreenName),
-		Description: fmt.Sprintf("検索窓ツイート (@%s)", user.ScreenName),
+		LongName:    fmt.Sprintf("@%s (%s) でツイート", user.ScreenName, user.IDStr),
+		Description: fmt.Sprintf("@%s (%s) で検索窓からツイート ", user.ScreenName, user.IDStr),
 		Image: Image{
 			Width:  16,
 			Height: 16,
