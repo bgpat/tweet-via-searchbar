@@ -1,5 +1,29 @@
-[![Build Status](https://travis-ci.org/bgpat/tweet-via-searchbar.svg?branch=master)](https://travis-ci.org/bgpat/tweet-via-searchbar)
-[![Docker Repository on Quay](https://quay.io/repository/bgpat/tweet-via-searchbar/status "Docker Repository on Quay")](https://quay.io/repository/bgpat/tweet-via-searchbar)
-
 # tweet-via-searchbar
 Tweet via searchbar
+
+## usage
+
+### install dependencies
+
+```bash
+make dep
+```
+
+or
+
+```bash
+dep ensure
+```
+
+### compile
+
+```bash
+make
+```
+
+### run
+
+```bash
+cp .env.sample .env
+docker-compose up -d --build
+```
