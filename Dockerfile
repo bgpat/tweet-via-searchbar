@@ -18,4 +18,5 @@ FROM alpine:3.7
 RUN apk add -U ca-certificates
 COPY --from=0 /main /main
 COPY templates /templates
-CMD ["/main"]
+EXPOSE 8080
+ENTRYPOINT ["/main"]
