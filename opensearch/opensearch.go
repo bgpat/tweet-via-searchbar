@@ -52,7 +52,7 @@ type Param struct {
 func NewOpenSearch(user *twtr.User, client *middleware.Client) *OpenSearch {
 	return &OpenSearch{
 		XMLNS:       "http://a9.com/-/spec/opensearch/1.1/",
-		ShortName:   fmt.Sprintf("@%s(%s)", user.ScreenName, user.ID),
+		ShortName:   fmt.Sprintf("@%s(%s)", user.ScreenName, user.IDStr),
 		LongName:    fmt.Sprintf("@%sでツイート", user.ScreenName),
 		Description: fmt.Sprintf("検索窓ツイート (@%s)", user.ScreenName),
 		Image: Image{
