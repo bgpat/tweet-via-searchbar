@@ -98,13 +98,15 @@ func (o *OpenSearch) ToString() (string, error) {
 }
 
 func (o *OpenSearch) Render(w http.ResponseWriter) error {
-	header := w.Header()
-	header["Content-Type"] = []string{"application/opensearchdescription+xml; charset=utf-8"}
-
 	str, err := o.ToString()
 	if err != nil {
 		return err
 	}
 	_, err = io.WriteString(w, str)
 	return err
+}
+
+func (o *OpenSearch) WriteContentType(w http.ResponseWriter) {
+	header := w.Header()
+	header["Content-Type"] = []string{"application/opensearchdescription+xml; charset=utf-8"}
 }
