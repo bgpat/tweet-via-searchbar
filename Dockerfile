@@ -14,9 +14,9 @@ ADD . ./
 RUN go build --ldflags '-s -w -linkmode external -extldflags -static' -o /main
 
 
-FROM alpine:3.7
-RUN apk add -U ca-certificates
+FROM scratch
 COPY --from=0 /main /main
+COPY --from=0 /etc/ssl /etc/ssl
 COPY templates /templates
 EXPOSE 8080
 ENTRYPOINT ["/main"]
