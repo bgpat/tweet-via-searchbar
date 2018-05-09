@@ -1,0 +1,179 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: searchbar
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchbar
+  namespace: searchbar
+  labels:
+    app: searchbar
+    role: web
+spec:
+  selector:
+    matchLabels:
+      app: searchbar
+      role: web
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: searchbar
+        role: web
+    spec:
+      containers:
+      - name: searchbar
+        image: bgpat/tweet-via-searchbar:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: dotenv
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: searchbar
+  namespace: searchbar
+  labels:
+    app: searchbar
+    role: web
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+    name: http
+    protocol: TCP
+  selector:
+    app: searchbar
+    role: web
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: searchbar
+  namespace: searchbar
+spec:
+  tls:
+  - hosts:
+    - searchbar.401.jp
+    secretName: cert-manager-tls
+  rules:
+  - host: searchbar.401.jp
+    http:
+      paths:
+      - backend:
+          serviceName: searchbar
+          servicePort: 80
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: searchbar
+  labels:
+    app: redis
+    role: db
+spec:
+  serviceName: redis
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      role: db
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: db
+    spec:
+      containers:
+      - name: redis
+        image: redis:3.2-alpine
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: searchbar
+  labels:
+    app: redis
+    role: db
+spec:
+  ports:
+  - port: 6379
+    name: redis
+    protocol: TCP
+  selector:
+    app: redis
+    role: db
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: searchbar
+spec:
+  acme:
+    server: https://acme-v01.api.letsencrypt.org/directory
+    email: bgpat23@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    http01: {}
+    dns01:
+      providers:
+      - name: prod-dns
+        clouddns:
+          serviceAccountSecretRef:
+            name: clouddns-service-account
+            key: cert-manager-key.json
+          project: bgpat-188622
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: searchbar
+  namespace: searchbar
+spec:
+  secretName: cert-manager-tls
+  issuerRef:
+    name: letsencrypt-prod
+  commonName: searchbar.401.jp
+  dnsNames:
+  - searchbar.401.jp
+  acme:
+    config:
+    - dns01:
+        provider: prod-dns
+      domains:
+      - searchbar.401.jp
+---
+apiVersion: v1
+data:
+  BASE_URL: aHR0cHM6Ly9zZWFyY2hiYXIuNDAxLmpw
+  CONSUMER_KEY: ""
+  CONSUMER_SECRET: ""
+  REDIS_URL: cmVkaXM6NjM3OQ==
+  SESSION_SECRET: ""
+kind: Secret
+metadata:
+  name: dotenv
+  namespace: searchbar
+type: Opaque
