@@ -3,29 +3,24 @@
 Tweet via searchbar
 https://searchbar.401.jp/
 
-## usage
-
-### install dependencies
-
-```bash
-make dep
-```
-
-or
-
-```bash
-dep ensure
-```
-
-### compile
+## Build
 
 ```bash
 make
 ```
 
-### run
+## Run with Docker
 
 ```bash
 cp .env.sample .env
 docker-compose up -d --build
+```
+
+## Deploy to Kubernetes
+
+```bash
+kubectl apply -f kubernetes.yml
+
+# edit env vars
+kubectl -n searchbar edit secret dotenv
 ```
