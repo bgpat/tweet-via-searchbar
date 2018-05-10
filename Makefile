@@ -5,10 +5,10 @@ SRC_FILES := $(shell find . -name '*.go' -not -path './vendor/*')
 .DEFAULT_GOAL := $(BIN_FILE)
 
 $(BIN_FILE): $(SRC_FILES) vendor
-	go build -o $@
+	go build -v -o $@
 
-vendor:
-	dep ensure
+vendor: Gopkg.toml Gopkg.lock
+	dep ensure -v
 
 .PHONY: test
 test: $(SRC_FILES)
@@ -16,5 +16,4 @@ test: $(SRC_FILES)
 
 .PHONY: clean
 clean:
-	rm -rf bin/*
-	rm -rf vendor
+	rm -rf bin/* vendor
